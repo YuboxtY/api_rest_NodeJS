@@ -1,11 +1,12 @@
 const Producto = require('../models/producto.model');
 exports.crearProducto = async (req, res) => {
     try {
-        const { nombre, precio, stock } = req.body;
+        const { nombre, precio, stock, categoriaId } = req.body;
         const nuevoProducto = await Producto.create({
             nombre,
             precio,
-            stock
+            stock,
+            categoriaId
         });
         res.status(201).json(nuevoProducto);
 

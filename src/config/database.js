@@ -10,6 +10,10 @@ const sequelize = new Sequelize(
     port: process.env.DB_PORT, // base de datos puerto
     dialect: "mysql",    // base de datos MySQL
     logging: false, // desactiva los logs de Sequelize
+    define: {
+      freezeTableName: true, // desactiva la pluralización automática de nombres de tablas
+      // timestamps: false, // desactiva los timestamps automáticos
+    },
   }
 );
 
