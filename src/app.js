@@ -4,11 +4,21 @@ const app = express();
 const sequelize = require('./config/database');
 const productoRoutes = require('./routes/producto.route');
 const categoriaRoutes = require('./routes/categoria.route');
+const cookieParser = require('cookie-parser');
+const authMiddleware = require('./middlewares/auth.middleware');
+const authRoutes = require('./routes/login.route');
 require('dotenv').config();
-app.use(express.json());
 
-app.use('/api/productos', productoRoutes);
-app.use('/api/categorias', categoriaRoutes);
+app.use(express.json());
+app.use(cookieParser());
+
+const swaggerUi = require('swagger-ui-express');
+const swaggerFile = require('./swagger-output.json');
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerFile));
+
+app.use('/api/auth', authRoutes);
+app.use('/api/productos', authMiddleware, productoRoutes);
+app.use('/api/categorias', authMiddleware, categoriaRoutes);
 
 (async () => {
     try {
